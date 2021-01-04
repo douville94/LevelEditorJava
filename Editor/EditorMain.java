@@ -2,7 +2,6 @@ package Editor;
 
 import java.awt.*;
 import java.awt.event.*;
-
 public class EditorMain extends Frame implements ActionListener, WindowListener {
     //private vars
     private MenuBar mb;// = new MenuBar();
@@ -10,8 +9,10 @@ public class EditorMain extends Frame implements ActionListener, WindowListener 
     
     //Constructor
     public EditorMain() {
+        setLayout(new FlowLayout());
+
         mb = new MenuBar();
-        File = new Menu("File");
+        File = new Menu(" File");
         Edit = new Menu("Edit");
         View = new Menu("View");
         Help = new Menu("Help");
