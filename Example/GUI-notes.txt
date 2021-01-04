@@ -1,0 +1,105 @@
+//From https://www3.ntu.edu.sg/home/ehchua/programming/java/j4a_gui.html
+Basically 2 APIs (sub-APIs, technically) for Java graphics: AWT & Swing
+-AWT is older & deprecated as of Jan 2021 (time of writing)
+-Swing is newer and has some more features
+
+AWT packages
+java.awt
+-core AWT gfx classes
+    -GUI component classes e.g. Button, TextField, Label
+    -GUI container classes, e.g. Frame, Panel
+    -Layout mngrs, e.g. FlowLayout, BorderLayout, GridLayout
+    -Custom gfx classes e.g. Graphics, Color, Font
+java.awt.event
+-Event handling
+    -Event classes like ActionEvent, MouseEvent, KeyEvent, WindowEvent (used these in
+        Android Chinese Checkers app in CS307)
+    -Event listener classes, e.g. ActionListener, MouseListener, KeyListener
+    -Event listener Adapter classes, e.g. MouseAdapter, KeyAdapter, WindowAdapter
+
+Java GUI split btwn Components & Containers
+-Components: elementary GUI objects, e.g. Button, Label, TextField
+-Containers: contain components & containers in specific layout, e.g. Frame, Panel
+
+    Panel p = new Panel();
+    Button b = new Button("Press");
+    p.add(b); //Panel container adds a button component
+Component synonyms: controls/widgets
+
+GUI exists in hierarchy, starts w/ a top-level container (Frame)
+-This is the main window for the GUI app
+-Includes title bar, icon, windowing buttons
+Your class must inherit from java.awt.Frame to do create this container
+AWT dialog: dialog box
+AWT applet: top-most container for applet (applet is Java program running inside browser)
+
+2ndary containers = inherit from Frame
+-Panel: rect box used to layout a set of related GUI components in a specific pattern
+-ScrollPane: provides horiz/vert scrolling for child component
+
+Hierarchy of AWT container classes
+    -Master (built into Java code): LayoutManager
+    -Container
+        -Panel
+            -java.applet.Applet
+        -Window
+            -Frame
+            -Dialog
+        -ScrollPane
+
+AWT component classes
+Label has 3 constructors
+    public Label(String strLabel, int alignment);
+    public Label(String strLabel);
+    public Label();
+Label constants:
+    public static final LEFT;    // Label.LEFT
+    public static final RIGHT;   // Label.RIGHT
+    public static final CENTER;  // Label.CENTER
+Label methods: getText(), setText(String), getAlignment(), setAlignment(int)
+
+Creating component & adding to container
+-Declare --> construct --> identify container to hold component
+-Every container has an add(Component) method. The container adds a component to itself
+    Label lblInput;
+    lblInput = new Label("Enter ID");
+    add(lblInput);      //this.add(lblInput) - "this" is typically subclass of Frame
+    lblInput.setText("Enter password");
+    lblInput.getText();
+Anonymous instance: creating a Label w/o an identifier. But you can't
+    reference an anonymous instance after creation. Usually suitable for Label objects
+
+    // Allocate an anonymous Label instance.
+    // "this" container adds the instance.
+    // You CANNOT reference an anonymous instance to carry out further operations.
+    add(new Label("Enter Name: ", Label.RIGHT));
+    // Same as
+    Label xxx = new Label("Enter Name: ", Label.RIGHT)); // xxx assigned by compiler
+    add(xxx);
+
+Event listeners are built into TextFields & Buttons
+    -Callback method: actionPerformed(ActionEvent) method
+    -You never explicitly call this method in your code; the graphics subsystem
+        "calls it back" whenever an action is performed
+    -Source object e.g. Button interacts w/ user --> creates an event object to capture
+        the action --> event sent to all registered listener objects --> event-handler
+        method is called back
+    -Subscribe-publish/observable-observer design pattern
+    1) Source fires event when triggered, e.g. Button fires ActionEvent
+        a) Declare an interface called XListener that has handler method defs
+        b) XEvent listeners must implement XListener interface
+            listeners must provide own implementations to abstract methods declared in
+            XListener interface
+            class MyMouseListener implements MouseListener {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    
+                }
+            }
+
+        c) The source must maintain a list of XEvent listener objects & define 2 methods
+            addXListener() & removeXListener()
+            public void addXxxListener(XxxListener lis);
+            public void removeXxxListener(XxxListener lis);
+
+            
