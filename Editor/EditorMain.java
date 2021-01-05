@@ -2,53 +2,109 @@ package Editor;
 
 import java.awt.*;
 import java.awt.event.*;
-public class EditorMain extends Frame implements ActionListener, WindowListener {
+import javax.swing.*;
+
+public class EditorMain extends JFrame {//, WindowListener {
     //private vars
-    private MenuBar mb;// = new MenuBar();
-    private Menu File, Edit, View, Help;
+    private JMenuBar mb;// = new JMenuBar();
+    private JMenu fileMenu, editMenu, viewMenu, helpMenu;
+    private JMenuItem newItem, save, quit, cut, copy, paste, zoomIn,
+        zoomOut, about;
     
     //Constructor
     public EditorMain() {
-        setLayout(new FlowLayout());
+        Container cp = getContentPane();
+        cp.setLayout(new FlowLayout());
 
-        mb = new MenuBar();
-        File = new Menu(" File");
-        Edit = new Menu("Edit");
-        View = new Menu("View");
-        Help = new Menu("Help");
-        mb.add(File);
-        mb.add(Edit);
-        mb.add(View);
-        mb.add(Help);
+        mb = new JMenuBar();
+        fileMenu = new JMenu("File");
+        fileMenu.add(populateJMenuItems(newItem, "New"));
+        fileMenu.add(populateJMenuItems(save, "Save"));
+        fileMenu.add(populateJMenuItems(quit, "Quit"));
 
-        addWindowListener(this);
-        this.setMenuBar(mb);
+        editMenu = new JMenu("Edit");
+        editMenu.add(populateJMenuItems(cut, "Cut"));
+        editMenu.add(populateJMenuItems(copy, "Copy"));
+        editMenu.add(populateJMenuItems(paste, "Paste"));
+
+        viewMenu = new JMenu("View");
+        viewMenu.add(populateJMenuItems(zoomIn, "Zoom In"));
+        viewMenu.add(populateJMenuItems(zoomOut, "Zoom Out"));
+
+        helpMenu = new JMenu("Help");
+        about = new JMenuItem("About Nyarf Editor");
+        String abtInfo = "Version 0.0.1";
+        about.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(cp, abtInfo);
+            }
+        });
+        about.setActionCommand("About Nyarf Editor");
+        helpMenu.add(about);
+
+        // helpMenu.add(populateJMenuItems(about, "About Nyarf Editor"));
+
+        mb.add(fileMenu);
+        mb.add(editMenu);
+        mb.add(viewMenu);
+        mb.add(helpMenu);
+
+        // addWindowListener(this);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        this.setJMenuBar(mb);
         this.setTitle("Nyarf Editor");
         this.setSize(900, 900);
         this.setVisible(true);
     }
 
-    //functions
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
-
-    @Override
-    public void windowClosing(WindowEvent e) {
-        System.exit(0);
-    }
-    // Not Used, BUT need to provide an empty body to compile.
-    @Override public void windowOpened(WindowEvent evt) { }
-    @Override public void windowClosed(WindowEvent evt) { }
-    // For Debugging
-    @Override public void windowIconified(WindowEvent evt) { System.out.println("Window Iconified"); }
-    @Override public void windowDeiconified(WindowEvent evt) { System.out.println("Window Deiconified"); }
-    @Override public void windowActivated(WindowEvent evt) { System.out.println("Window Activated"); }
-    @Override public void windowDeactivated(WindowEvent evt) { System.out.println("Window Deactivated"); }
-
     public static void main(String[] args) {
-        //Invoke constructor to setup the GUI
-        new EditorMain();
+        // Run GUI codes in Event-Dispatching thread for thread safety
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new EditorMain();
+            }
+        });
     }
+
+    public JMenuItem populateJMenuItems(JMenuItem x, String name) {
+        x = new JMenuItem(name);
+        x.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                switch(name) {
+                    case "newItem":
+                        //create new level;
+                        System.out.print("newItem!!");
+                        break;
+                    case "save":
+                        //save current level/workspace
+                        break;
+                    case "quit":
+                        //quit the app
+                        break;
+                    case "cut":
+                        //cut asset
+                        break;
+                    case "copy":
+                        //copy asset
+                        break;
+                    case "paste":
+                        //paste asset
+                        break;
+                    case "zoomIn":
+                        //zoom into the level
+                        break;
+                    case "zoomOut":
+                        //zoom out of the level
+                        break;
+                }
+            }
+        });
+        x.setActionCommand(name);
+        return x;
+    }
+   
 }

@@ -102,4 +102,21 @@ Event listeners are built into TextFields & Buttons
             public void addXxxListener(XxxListener lis);
             public void removeXxxListener(XxxListener lis);
 
-            
+
+Swing code summary
+-Swing components are identical to AWT, just add J as prefix
+-Top-level container like JFrame is needed; JComponents are not added directly onto this
+    container. Instead, add them to the content-pane of the top-level container.
+    Use getContentPane() from the top-level container to get reference to the content pane
+-Swing apps use AWT event-handling classes
+-Run the constructor in the Event Dispatcher Thread (instead of main()) for thread safety
+    // The entry main() method
+    public static void main(String[] args) {
+        // Run GUI codes in Event-Dispatching thread for thread-safety
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new ......();  // Let the constructor do the job
+            }
+        });
+    }

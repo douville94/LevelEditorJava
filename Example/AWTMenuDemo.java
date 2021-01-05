@@ -26,7 +26,7 @@ public class AWTMenuDemo {
          public void windowClosing(WindowEvent windowEvent){
             System.exit(0);
          }        
-      });    
+      });
       headerLabel = new Label();
       headerLabel.setAlignment(Label.CENTER);
       statusLabel = new Label();        
