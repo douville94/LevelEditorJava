@@ -6,6 +6,7 @@ import javax.swing.*;
 
 public class EditorMain extends JFrame {//, WindowListener {
     //private vars
+    private String abtInfo = "Version 0.0.1";
     private JMenuBar mb;// = new JMenuBar();
     private JMenu fileMenu, editMenu, viewMenu, helpMenu;
     private JMenuItem newItem, save, quit, cut, copy, paste, zoomIn,
@@ -33,7 +34,6 @@ public class EditorMain extends JFrame {//, WindowListener {
 
         helpMenu = new JMenu("Help");
         about = new JMenuItem("About Nyarf Editor");
-        String abtInfo = "Version 0.0.1";
         about.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -75,29 +75,30 @@ public class EditorMain extends JFrame {//, WindowListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 switch(name) {
-                    case "newItem":
+                    case "New":
                         //create new level;
                         System.out.print("newItem!!");
                         break;
-                    case "save":
+                    case "Save":
                         //save current level/workspace
                         break;
-                    case "quit":
+                    case "Quit":
                         //quit the app
+                        System.exit(0);
                         break;
-                    case "cut":
+                    case "Cut":
                         //cut asset
                         break;
-                    case "copy":
+                    case "Copy":
                         //copy asset
                         break;
-                    case "paste":
+                    case "Paste":
                         //paste asset
                         break;
-                    case "zoomIn":
+                    case "Zoom In":
                         //zoom into the level
                         break;
-                    case "zoomOut":
+                    case "Zoom Out":
                         //zoom out of the level
                         break;
                 }
