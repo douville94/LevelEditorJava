@@ -69,7 +69,7 @@ public class EditorMain extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.setJMenuBar(mb);
-        this.setTitle("Nyarthis Editor");
+        this.setTitle("Nyarf Editor");
         this.setSize(900, 900);
         this.setVisible(true);
     }
@@ -141,18 +141,71 @@ public class EditorMain extends JFrame {
     public JPanel initEditorSpace(Container c, JPanel jp) {
         jp = new JPanel(new BorderLayout());
 
-        /*Trying to align JPanel to the left */
+        /*Trying to align JPanel to the left*/
         JPanel jp2 = new JPanel(new GridBagLayout());
+        // JPanel jp2 = new JPanel(new FlowLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         // jp2.setBorder(BorderFactory.createLineBorder(Color.RED, 5, true));
-        ImageIcon img = new ImageIcon("Assets//Megaman_moving-1.png");
-        // JButton temp = new JButton("doy");
-        JButton temp = new JButton(img);
-        jp2.add(temp, gbc);
-        jp2.add(new JButton("derp1"), gbc);
-        jp2.add(new JButton("derp2"), gbc);
-        jp2.add(new JButton("derp3"), gbc);
+        JButton btn1, btn2, btn3, btn4;
+        ImageIcon Tree1, Tree2, RP1, RP2;
+        Tree1 = new ImageIcon("Assets//Tree1.png");
+        Tree2 = new ImageIcon("Assets//Tree2.png");
+        RP1 = new ImageIcon("Assets//RockPile1.png");
+        RP2 = new ImageIcon("Assets//RockPIle2.png");
+        // btn1 = new JButton(new ImageIcon("Assets//Tree1.png"));
+        btn1 = new JButton();
+        btn1.setBounds(0, 0, 50, 50);
+        btn1.setIcon(resizeIcon(Tree1, btn1.getWidth(), btn1.getHeight()));
+        // btn2 = new JButton(new ImageIcon("Assets//Tree2.png"));
+        btn2 = new JButton();
+        btn2.setBounds(15, 15, 50, 50);
+        btn2.setIcon(resizeIcon(Tree2, btn2.getWidth(), btn2.getHeight()));
+        // btn3 = new JButton(new ImageIcon("Assets//RockPile1.png"));
+        btn3 = new JButton();
+        btn3.setBounds(30, 30, 50, 50);
+        btn3.setIcon(resizeIcon(RP1, btn3.getWidth(), btn3.getHeight()));
+        // btn4 = new JButton(new ImageIcon("Assets//RockPile2.png"));
+        btn4 = new JButton();
+        btn4.setBounds(45, 45, 50, 50);
+        btn4.setIcon(resizeIcon(RP2, btn4.getWidth(), btn4.getHeight()));
+
+        /*Init top rows of assets to drag and drop, for now they will
+        sit at top of the window*/
+        jp2.add(btn1, gbc);
+        jp2.add(btn2, gbc);
+        jp2.add(btn3, gbc);
+        jp2.add(btn4, gbc);
+
+        // jp2.add(btn1);
+        // jp2.add(btn2);
+        // jp2.add(btn3);
+        // jp2.add(btn4);
+        // jp.add(jp2);//put this at the end of the method, above return stmt
+
+        /**This block is causing problems */
+        // JPanel jp3 = new JPanel(new GridLayout());
+        // jp3.setBorder(BorderFactory.createLineBorder(Color.RED, 5, true));
+        // jp.add(jp3);
+
+        JPanel jp3 = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc2 = new GridBagConstraints();
+        gbc2.fill = GridBagConstraints.CENTER;
+        gbc2.gridx = 0;
+        gbc2.gridy = 1;
+        
+
         jp.add(jp2);
+        // jp.add(jp3);
         return jp;
+    }
+
+    /*Resize the assets to have reasonable button sizes
+    From:
+    https://stackoverflow.com/questions/36957450/fit-size-of-an-imageicon-to-a-jbutton */
+    public Icon resizeIcon(ImageIcon ii, int resizeWidth, int resizedHeight) {
+        Image img = ii.getImage();
+        Image resizedImage = img.getScaledInstance(resizeWidth, resizedHeight, 
+            Image.SCALE_SMOOTH);
+        return new ImageIcon(resizedImage);
     }
 }
