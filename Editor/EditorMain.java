@@ -16,17 +16,17 @@ public class EditorMain extends JFrame {
     
     //Constructor
     public EditorMain() {
-        cp = getContentPane();
-        cp.setLayout(new FlowLayout());
+        // cp = getContentPane();
+        // cp.setLayout(new FlowLayout());
         
         /*Instantiating blank JFrame instead of Container w/ getContentPane()
         stops pop-up windows from lining up w/ rest of window, e.g. About dialog
         is off-center*/
-        // f = new JFrame("Top-level_frame");
+        f = new JFrame("Top-level_frame");
 
         /*Constructor should be creating new blank editor space anyway
         Don't worry about "New" file menu for now*/
-        cp.add(initEditorSpace(cp, p));
+        f.add(initEditorSpace(f, p));
         // p = new JPanel(new FlowLayout());
         // JButton temp = new JButton("doy");
         // p.add(temp);
@@ -70,10 +70,10 @@ public class EditorMain extends JFrame {
         // addWindowListener(this);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        this.setJMenuBar(mb);
-        this.setTitle("Nyarf Editor");
-        this.setSize(900, 900);
-        this.setVisible(true);
+        f.setJMenuBar(mb);
+        f.setTitle("Nyarf Editor");
+        f.setSize(900, 900);
+        f.setVisible(true);
     }
 
     public static void main(String[] args) {
@@ -166,7 +166,7 @@ public class EditorMain extends JFrame {
         return x;
     }
 
-    public JPanel initEditorSpace(Container c, JPanel jp) {
+    public JPanel initEditorSpace(JFrame f, JPanel jp) {
         jp = new JPanel(new BorderLayout());
         jp.setBorder(BorderFactory.createLineBorder(Color.BLUE, 5, true));
 
@@ -226,8 +226,8 @@ public class EditorMain extends JFrame {
         jp3.setBorder(BorderFactory.createLineBorder(Color.RED, 5, true));
 
         // jp.add(jp3);
-        jp.add(jp2, BorderLayout.CENTER);
-        jp.add(jp3, BorderLayout.SOUTH);
+        jp.add(jp2, BorderLayout.NORTH);
+        jp.add(jp3, BorderLayout.CENTER);
         return jp;
     }
 
