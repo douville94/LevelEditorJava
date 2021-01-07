@@ -33,6 +33,7 @@ public class EditorMain extends JFrame {
 
         mb = new JMenuBar();
         fileMenu = new JMenu("File");
+        fileMenu.setMnemonic(KeyEvent.VK_F);//use Alt+F to open File menu
         fileMenu.add(populateJMenuItems(newItem, "New"));
         fileMenu.add(populateJMenuItems(open, "Open"));
         fileMenu.add(populateJMenuItems(save, "Save"));
@@ -86,6 +87,45 @@ public class EditorMain extends JFrame {
 
     public JMenuItem populateJMenuItems(JMenuItem x, String name) {
         x = new JMenuItem(name);
+
+        switch(name) {
+            case "Open":
+                x.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, 
+                    KeyEvent.CTRL_DOWN_MASK));
+                break;
+            case "Save":
+                x.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, 
+                    KeyEvent.CTRL_DOWN_MASK));
+                break;
+            case "Quit":
+                /*For this to work, have to Alt+F to open file menu, then Q to quit*/
+                // x.setMnemonic(KeyEvent.VK_Q);
+
+                // Action quitActn = new AbstractAction(name) {
+                //     @Override
+                //     public void actionPerformed(ActionEvent e) {
+                //         // System.exit(0);
+                //     }
+                // };
+                // quitActn.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Q, 
+                //     KeyEvent.CTRL_DOWN_MASK));
+                // x.setAction(quitActn);
+                
+                /*From https://bit.ly/3hNodqX 
+                codejava.net/java-se/swing/setting shortcuts & hotkeys*/
+                x.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, 
+                    KeyEvent.CTRL_DOWN_MASK));
+                break;
+            case "Copy":
+                x.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, 
+                    KeyEvent.CTRL_DOWN_MASK));
+                break;
+            case "Cut":
+                x.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, 
+                    KeyEvent.CTRL_DOWN_MASK));
+                break;
+        }
+
         x.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -189,13 +229,13 @@ public class EditorMain extends JFrame {
 
         JPanel jp3 = new JPanel(new GridBagLayout());
         GridBagConstraints gbc2 = new GridBagConstraints();
-        gbc2.fill = GridBagConstraints.CENTER;
+        gbc2.fill = GridBagConstraints.SOUTH;
         gbc2.gridx = 0;
         gbc2.gridy = 1;
-        
+        jp3.setBorder(BorderFactory.createLineBorder(Color.RED, 5, true));
 
+        jp.add(jp3);
         jp.add(jp2);
-        // jp.add(jp3);
         return jp;
     }
 
