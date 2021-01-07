@@ -18,6 +18,7 @@ public class EditorMain extends JFrame {
     public EditorMain() {
         cp = getContentPane();
         cp.setLayout(new FlowLayout());
+        
         /*Instantiating blank JFrame instead of Container w/ getContentPane()
         stops pop-up windows from lining up w/ rest of window, e.g. About dialog
         is off-center*/
@@ -50,7 +51,7 @@ public class EditorMain extends JFrame {
 
         helpMenu = new JMenu("Help");
         about = new JMenuItem("About Nyarf Editor");
-        /*This has to go here; cannot call cp as arg in showMessageDialog
+        /*This has to go here; cannot call cp as arg for showMessageDialog
         if in populateJMenuItems()*/
         about.addActionListener(new ActionListener() {
             @Override
@@ -98,19 +99,6 @@ public class EditorMain extends JFrame {
                     KeyEvent.CTRL_DOWN_MASK));
                 break;
             case "Quit":
-                /*For this to work, have to Alt+F to open file menu, then Q to quit*/
-                // x.setMnemonic(KeyEvent.VK_Q);
-
-                // Action quitActn = new AbstractAction(name) {
-                //     @Override
-                //     public void actionPerformed(ActionEvent e) {
-                //         // System.exit(0);
-                //     }
-                // };
-                // quitActn.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Q, 
-                //     KeyEvent.CTRL_DOWN_MASK));
-                // x.setAction(quitActn);
-                
                 /*From https://bit.ly/3hNodqX 
                 codejava.net/java-se/swing/setting shortcuts & hotkeys*/
                 x.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, 
@@ -180,12 +168,14 @@ public class EditorMain extends JFrame {
 
     public JPanel initEditorSpace(Container c, JPanel jp) {
         jp = new JPanel(new BorderLayout());
+        jp.setBorder(BorderFactory.createLineBorder(Color.BLUE, 5, true));
 
         /*Trying to align JPanel to the left*/
         JPanel jp2 = new JPanel(new GridBagLayout());
         // JPanel jp2 = new JPanel(new FlowLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        // jp2.setBorder(BorderFactory.createLineBorder(Color.RED, 5, true));
+        jp2.setBorder(BorderFactory.createLineBorder(Color.GREEN, 5, true));
+        
         JButton btn1, btn2, btn3, btn4;
         ImageIcon Tree1, Tree2, RP1, RP2;
         Tree1 = new ImageIcon("Assets//Tree1.png");
@@ -227,15 +217,17 @@ public class EditorMain extends JFrame {
         // jp3.setBorder(BorderFactory.createLineBorder(Color.RED, 5, true));
         // jp.add(jp3);
 
-        JPanel jp3 = new JPanel(new GridBagLayout());
+        // JPanel jp3 = new JPanel(new GridBagLayout());
+        JPanel jp3 = new JPanel(new GridLayout(0, 1));
         GridBagConstraints gbc2 = new GridBagConstraints();
         gbc2.fill = GridBagConstraints.SOUTH;
-        gbc2.gridx = 0;
+        gbc2.gridx = 1;
         gbc2.gridy = 1;
         jp3.setBorder(BorderFactory.createLineBorder(Color.RED, 5, true));
 
-        jp.add(jp3);
-        jp.add(jp2);
+        // jp.add(jp3);
+        jp.add(jp2, BorderLayout.CENTER);
+        jp.add(jp3, BorderLayout.SOUTH);
         return jp;
     }
 
