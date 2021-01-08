@@ -120,3 +120,51 @@ Swing code summary
             }
         });
     }
+
+Drag & drop
+From https://docs.oracle.com/javase/tutorial/uiswing/dnd/intro.html
+Summary:
+    -Clicking and dragging gesture initiates drag gesture
+        -The clicked component packages up data for export and declares what source actions
+            it supports (e.g. COPY, MOVE, LINK)
+    -As data is dragged, Swing constantly calculates the dragged data location & renders
+        onscreen
+    -If Shift and/or CTRL key is held during drag, this is added to the drag gesture
+        -Typical drag requests the MOVE action
+        -Holding CTRL key while dragging requests the COPY action
+        -Holding Shift+CTRL while dragging requests LINK action
+    -Once component is dragged over the bounds of target component, target is continuously
+        polled to see if it will accept/reject dragged object for drop
+        -As object is component is dragged, target shows drop location (e.g. insertion 
+            cursor or highlighted selection)
+    -When mouse button is released, dragged component inspects the declared source actions
+        & any user action (held keys) & then chooses what it wants out of avialalbe options
+            -Usually, target component will choose to insert dragged component & point of
+                drop.
+
+    Swing handles the work for you.
+
+JButtons are not supported for D&D by default
+Classes w/ built-in drag support:
+-JColorChooser
+-JEditorPane
+-JFileChooser
+-JFormattedTextField
+-JList
+-JTable
+-JTextArea
+-JTextField
+-JTextPane
+-JTree
+
+Classes w/ built-in drop support:
+-JEditorPane
+-JFormattedTextField
+-JPasswordField
+-JTextArea
+-JTextPane
+-JColorChooser
+Limited drop support:
+-JList
+-JTable
+-JTree

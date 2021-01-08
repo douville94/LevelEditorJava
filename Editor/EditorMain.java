@@ -11,8 +11,8 @@ public class EditorMain {
     private String abtInfo = "Version 0.0.1";
     private JMenuBar mb;
     private JMenu fileMenu, editMenu, viewMenu, helpMenu;
-    private JMenuItem newItem, open, openRecent, save, quit, cut, copy, paste, zoomIn,
-        zoomOut, about;
+    private JMenuItem newItem, open, openRecent, save, quit, undo, redo, cut, copy, paste, 
+        zoomIn, zoomOut, about;
     
     //Constructor
     public EditorMain() {
@@ -39,6 +39,8 @@ public class EditorMain {
         fileMenu.add(populateJMenuItems(quit, "Quit"));
 
         editMenu = new JMenu("Edit");
+        editMenu.add(populateJMenuItems(undo, "Undo"));
+        editMenu.add(populateJMenuItems(redo, "Redo"));
         editMenu.add(populateJMenuItems(cut, "Cut"));
         editMenu.add(populateJMenuItems(copy, "Copy"));
         editMenu.add(populateJMenuItems(paste, "Paste"));
@@ -88,6 +90,10 @@ public class EditorMain {
         x = new JMenuItem(name);
 
         switch(name) {
+            case "New":
+                x.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, 
+                    KeyEvent.CTRL_DOWN_MASK));
+                    break;
             case "Open":
                 x.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, 
                     KeyEvent.CTRL_DOWN_MASK));
@@ -108,6 +114,18 @@ public class EditorMain {
                 break;
             case "Cut":
                 x.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, 
+                    KeyEvent.CTRL_DOWN_MASK));
+                break;
+            case "Paste":
+                x.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, 
+                    KeyEvent.CTRL_DOWN_MASK));
+                    break;
+            case "Undo":
+                x.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, 
+                    KeyEvent.CTRL_DOWN_MASK));
+                break;
+            case "Redo":
+                x.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, 
                     KeyEvent.CTRL_DOWN_MASK));
                 break;
         }
@@ -141,6 +159,12 @@ public class EditorMain {
                     case "Quit":
                         //quit the app
                         System.exit(0);
+                        break;
+                    case "Undo":
+                        //undo last action
+                        break;
+                    case "Redo":
+                        //redo undid action
                         break;
                     case "Cut":
                         //cut asset
@@ -204,16 +228,11 @@ public class EditorMain {
         jp2.add(btn3, gbc);
         jp2.add(btn4, gbc);
 
-        // jp2.add(btn1);
-        // jp2.add(btn2);
-        // jp2.add(btn3);
-        // jp2.add(btn4);
-        // jp.add(jp2);//put this at the end of the method, above return stmt
-
-        /**This block is causing problems */
-        // JPanel jp3 = new JPanel(new GridLayout());
-        // jp3.setBorder(BorderFactory.createLineBorder(Color.RED, 5, true));
-        // jp.add(jp3);
+        //To test drag & drop; is ready to go for JTextArea
+        JTextField nyarf = new JTextField("NYAAAAAAAAAAAARRRRRRF!!!!");
+        nyarf.setDragEnabled(true);
+        jp2.add(nyarf);
+        //jp3.add(new JTextArea());//add this after instantiating jp3
 
         // JPanel jp3 = new JPanel(new GridBagLayout());
         JPanel jp3 = new JPanel(new GridLayout(0, 1));
@@ -222,8 +241,8 @@ public class EditorMain {
         gbc2.gridx = 1;
         gbc2.gridy = 1;
         jp3.setBorder(BorderFactory.createLineBorder(Color.RED, 5, true));
+        jp3.add(new JTextArea());
 
-        // jp.add(jp3);
         jp.add(jp2, BorderLayout.NORTH);
         jp.add(jp3, BorderLayout.CENTER);
         return jp;
