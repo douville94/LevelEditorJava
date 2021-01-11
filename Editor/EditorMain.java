@@ -246,21 +246,9 @@ public class EditorMain {
         //Create new transfer handlers
         TransferHandler btn1th, btn2th, btn3th, btn4th;
         // btn1th = btn1.getTransferHandler();
-        btn1th = new DnDExport().getTH();
-        btn1th.getSourceActions(btn1);
-        btn1.setTransferHandler(btn1th);
-        //btn1.setDropTarget(DnDImport.);
-        //If you define new TransferHandler in DnDExport's constructor:
-        // btn1th = DnDExport.getTH();
-
-        btn1th.setDragImage(Tree1.getImage());
-
-        // btn2th = btn2.getTransferHandler();
-        // btn2th.setDragImage(Tree2.getImage());
-        // btn3th = btn3.getTransferHandler();
-        // btn3th.setDragImage(RP1.getImage());
-        // btn4th = btn4.getTransferHandler();
-        // btn4th.setDragImage(RP2.getImage());
+        // btn1th.getSourceActions(btn1);
+        // btn1.setTransferHandler(btn1th);
+        // btn1th.setDragImage(Tree1.getImage());
         
         /*Create 3rd JPanel as main editing space*/
         JPanel jp3 = new JPanel(new GridLayout(0, 1));
