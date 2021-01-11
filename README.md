@@ -7,3 +7,4 @@ Also will set event triggers eventually, but just focused on drag & drop + GUI b
 
 This was built on Windows 10 64-bit with AdoptOpenJDK 11.0.9.1+1 w/ HotSpot JVM: https://adoptopenjdk.net/
 Please install either this or the AdoptOpenJDK 11 JRE to build & run the level editor from source.
+May consider using packr https://github.com/libgdx/packr

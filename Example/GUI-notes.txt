@@ -168,3 +168,33 @@ Limited drop support:
 -JList
 -JTable
 -JTree
+
+Drag and drop (DnD/D&D)
+From: https://docs.oracle.com/javase/tutorial/uiswing/dnd/intro.html
+Core of data transfer in D&D: javax.swing.TransferHandler
+Most components are provided with a default transfer handler, but you can create & install
+    your own on any component.
+3 methods used to engage TransferHandler on a given component:
+*setDragEnabled(boolean) - turns on drag support (default false). Already defined on each
+    drag-supporting component (see above)
+*setDropMode(DropMode) - configs how drop locations are determined
+    -this method is defined for JList, JTable, & JTree
+*setTransferHandler(TransferHandler) - used to plug in custom data import & export
+    -this method is defined on JComponent, so is inherited by every swing component
+Framework for D&D is present, you just need to instantiate a TransferHandler object
+
+TransferHandler export methods:
+*getSourceActions(JComponent) - queries what actions the source component supports (e.g. 
+    COPY, MOVE, LINK, combo)
+*createTransferable(JComponent) - bundles up data to be exported into a Transferable
+    object in preparation for the transfer
+*exportDone(JComponent, Transferable, int) - invoked after export completion. If source
+    action is MOVE, data needs to be removed from the source component after transfer
+    finishes.
+
+TransferHandler import methods:
+*canImport(TransferHandler.TransferSupport) - called repeatedly during drag gesture,
+    returning true if the section of GUI underneath the cursor can accept the transfer
+*importData(TransferHandler.TransferSupport) - called on a successful drop/paste & 
+    initiates transfer of data to the target component, returning true if the import 
+    was successful.

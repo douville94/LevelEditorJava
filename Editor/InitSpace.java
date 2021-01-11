@@ -1,106 +1,29 @@
 package Editor;
-import java.util.ArrayList;
-import java.io.File;
+//use to offload code from EditorMain
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class EditorMain {
-    //private vars
-    private Container cp;
-    private JFrame f;
+public class InitSpace extends EditorMain {
     private JPanel p;
     private String abtInfo = "Version 0.0.1";
     private JMenuBar mb;
     private JMenu fileMenu, editMenu, viewMenu, helpMenu;
     private JMenuItem newItem, open, openRecent, save, quit, undo, redo, cut, copy, paste, 
         zoomIn, zoomOut, about;
-    public static ArrayList<String> AssetsList;
-    
-    public EditorMain() {
-        /*This was breaking the JPanels in initEditorSpace()*/
-        // cp = getContentPane();
-        // cp.setLayout(new FlowLayout());
-        
-        f = new JFrame("Top-level_frame");
 
-        AssetsList = new ArrayList<String>();
-        File dir = new File("Assets");
-        int i = 0;
-        for(File f : dir.listFiles()) {
-            AssetsList.add(i, f.toString());
-            System.out.println(f.toString() + " added!");
-            i++;
-        }
+    public InitSpace() {
 
-        /*Constructor should be creating new blank editor space anyway
-        Don't worry about "New" file menu for now*/
-        f.add(initEditorSpace(f, p));
-        // p = new JPanel(new FlowLayout());
-        // JButton temp = new JButton("doy");
-        // p.add(temp);
-        // cp.add(p);
-
-        mb = new JMenuBar();
-        fileMenu = new JMenu("File");
-        fileMenu.setMnemonic(KeyEvent.VK_F);//use Alt+F to open File menu
-        fileMenu.add(populateJMenuItems(newItem, "New"));
-        fileMenu.add(populateJMenuItems(open, "Open"));
-        fileMenu.add(populateJMenuItems(save, "Save"));
-        fileMenu.add(populateJMenuItems(quit, "Quit"));
-
-        editMenu = new JMenu("Edit");
-        editMenu.add(populateJMenuItems(undo, "Undo"));
-        editMenu.add(populateJMenuItems(redo, "Redo"));
-        editMenu.add(populateJMenuItems(cut, "Cut"));
-        editMenu.add(populateJMenuItems(copy, "Copy"));
-        editMenu.add(populateJMenuItems(paste, "Paste"));
-
-        viewMenu = new JMenu("View");
-        viewMenu.add(populateJMenuItems(zoomIn, "Zoom In"));
-        viewMenu.add(populateJMenuItems(zoomOut, "Zoom Out"));
-
-        helpMenu = new JMenu("Help");
-        about = new JMenuItem("About Nyarf Editor");
-        /*This has to go here; cannot call f as arg for showMessageDialog
-        if in populateJMenuItems()*/
-        about.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(f, abtInfo);
-            }
-        });
-        about.setActionCommand("About Nyarf Editor");
-        helpMenu.add(about);
-
-        mb.add(fileMenu);
-        mb.add(editMenu);
-        mb.add(viewMenu);
-        mb.add(helpMenu);
-
-        // addWindowListener(this);
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        f.setJMenuBar(mb);
-        f.setTitle("Nyarf Editor");
-        f.setSize(900, 900);
-        f.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        // Run GUI codes in Event-Dispatching thread for thread safety
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new EditorMain();
-            }
-        });
-    }
+    //Shouldn't need main method here
+    // public static void main(String[] args) {
+    //     new InitSpace();
+    // }
 
     public JMenuItem populateJMenuItems(JMenuItem x, String name) {
         x = new JMenuItem(name);
-        /*Shortcuts have to be set here; cannot reference x in the anonymous ActionListener
-        below.*/
+
         switch(name) {
             case "New":
                 x.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, 
@@ -215,23 +138,26 @@ public class EditorMain {
         Tree1 = new ImageIcon("Assets//Tree1.png");
         Tree2 = new ImageIcon("Assets//Tree2.png");
         RP1 = new ImageIcon("Assets//RockPile1.png");
-        RP2 = new ImageIcon("Assets//RockPile2.png");
-        /*Init top rows of assets to drag and drop, for now they will
-        sit at top of the window*/
-        //Instead of using JButtons, you could add icons to JLabels
+        RP2 = new ImageIcon("Assets//RockPIle2.png");
+        // btn1 = new JButton(new ImageIcon("Assets//Tree1.png"));
         btn1 = new JButton();
         btn1.setBounds(0, 0, 50, 50);
         btn1.setIcon(resizeIcon(Tree1, btn1.getWidth(), btn1.getHeight()));
+        // btn2 = new JButton(new ImageIcon("Assets//Tree2.png"));
         btn2 = new JButton();
         btn2.setBounds(15, 15, 50, 50);
         btn2.setIcon(resizeIcon(Tree2, btn2.getWidth(), btn2.getHeight()));
+        // btn3 = new JButton(new ImageIcon("Assets//RockPile1.png"));
         btn3 = new JButton();
         btn3.setBounds(30, 30, 50, 50);
         btn3.setIcon(resizeIcon(RP1, btn3.getWidth(), btn3.getHeight()));
+        // btn4 = new JButton(new ImageIcon("Assets//RockPile2.png"));
         btn4 = new JButton();
         btn4.setBounds(45, 45, 50, 50);
         btn4.setIcon(resizeIcon(RP2, btn4.getWidth(), btn4.getHeight()));
-        //Add buttons to 2nd JPanel
+
+        /*Init top rows of assets to drag and drop, for now they will
+        sit at top of the window*/
         jp2.add(btn1, gbc);
         jp2.add(btn2, gbc);
         jp2.add(btn3, gbc);
@@ -243,64 +169,17 @@ public class EditorMain {
         jp2.add(nyarf);
         //jp3.add(new JTextArea());//add this after instantiating jp3
 
-        //Create new transfer handlers
-        TransferHandler btn1th, btn2th, btn3th, btn4th;
-        // btn1th = btn1.getTransferHandler();
-        btn1th = new DnDExport().getTH();
-        btn1th.getSourceActions(btn1);
-        btn1.setTransferHandler(btn1th);
-        //btn1.setDropTarget(DnDImport.);
-        //If you define new TransferHandler in DnDExport's constructor:
-        // btn1th = DnDExport.getTH();
-
-        btn1th.setDragImage(Tree1.getImage());
-
-        // btn2th = btn2.getTransferHandler();
-        // btn2th.setDragImage(Tree2.getImage());
-        // btn3th = btn3.getTransferHandler();
-        // btn3th.setDragImage(RP1.getImage());
-        // btn4th = btn4.getTransferHandler();
-        // btn4th.setDragImage(RP2.getImage());
-        
-        /*Create 3rd JPanel as main editing space*/
+        // JPanel jp3 = new JPanel(new GridBagLayout());
         JPanel jp3 = new JPanel(new GridLayout(0, 1));
+        // GridBagConstraints gbc2 = new GridBagConstraints();
+        // gbc2.fill = GridBagConstraints.SOUTH;
+        // gbc2.gridx = 1;
+        // gbc2.gridy = 1;
         jp3.setBorder(BorderFactory.createLineBorder(Color.RED, 5, true));
-        // jp3.add(new JTextArea());//to test D&D from lines 240-243
-        JTable table = new JTable();
-        jp3.add(table);
-        JButton jp3btn = new JButton();
-        DnDImEx dndimex = new DnDImEx();
-        dndimex.createTransferable(btn1);
-        TransferHandler th = dndimex.getTH();
-        jp3btn.setTransferHandler(dndimex);
-
-        dndimex.setDragEnabled(true);
-        jp3btn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // dndimex.getTH().setDropMode(DropMode.INSERT);
-                table.setDropMode(DropMode.INSERT);
-            }
-        });
-        jp3.add(jp3btn);
-        /*Maybe create grid in jp3 to drag/drop assets*/
+        jp3.add(new JTextArea());
 
         jp.add(jp2, BorderLayout.NORTH);
         jp.add(jp3, BorderLayout.CENTER);
         return jp;
-    }
-
-    // public int getSourceActions(JComponent c) {
-    //     return COPY;
-    // }
-
-    /*Resize the assets to have reasonable button sizes
-    From:
-    https://stackoverflow.com/questions/36957450/fit-size-of-an-imageicon-to-a-jbutton */
-    public Icon resizeIcon(ImageIcon ii, int resizeWidth, int resizedHeight) {
-        Image img = ii.getImage();
-        Image resizedImage = img.getScaledInstance(resizeWidth, resizedHeight, 
-            Image.SCALE_SMOOTH);
-        return new ImageIcon(resizedImage);
     }
 }
