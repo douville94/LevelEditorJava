@@ -1,7 +1,9 @@
 package Editor;
+
 import java.util.ArrayList;
 import java.io.File;
 import java.awt.*;
+import java.awt.datatransfer.Transferable;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -254,23 +256,33 @@ public class EditorMain {
         JPanel jp3 = new JPanel(new GridLayout(0, 1));
         jp3.setBorder(BorderFactory.createLineBorder(Color.RED, 5, true));
         // jp3.add(new JTextArea());//to test D&D from lines 240-243
-        JTable table = new JTable();
-        jp3.add(table);
+        // JTable table = new JTable();
+        // JButton jb = new JButton();
+        JPanel jp4 = new JPanel();
         JButton jp3btn = new JButton();
         DnDImEx dndimex = new DnDImEx();
-        dndimex.createTransferable(btn1);
-        TransferHandler th = dndimex.getTH();
-        jp3btn.setTransferHandler(dndimex);
+        // Transferable tranfs = dndimex.createTransferable(btn1);
+        // jp3.add(jp3btn);
+        // jp4.setTransferHandler(dndimex);
+        // jp3.add(jp4);
+        // jp3btn.setTransferHandler(dndimex);
+        // TransferHandler th = dndimex.getTH();
+        jp3.setTransferHandler(dndimex);
 
-        dndimex.setDragEnabled(true);
-        jp3btn.addActionListener(new ActionListener() {
+        // dndimex.setDragEnabled(true);
+        btn1.addMouseMotionListener(new MouseAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                // dndimex.getTH().setDropMode(DropMode.INSERT);
-                table.setDropMode(DropMode.INSERT);
+            public void mouseDragged(MouseEvent e) {
+                // th.setDropMode(DropMode.INSERT);
+                // jb.setDropMode(DropMode.INSERT);
+                JButton jb = (JButton)e.getSource();
+                jb.setTransferHandler(new DnDImEx());
+                TransferHandler thandl = jb.getTransferHandler();
+                thandl.exportAsDrag(jb, e, TransferHandler.COPY);
+                //^goes to DnDImex.createTransferable()
             }
         });
-        jp3.add(jp3btn);
+        
         /*Maybe create grid in jp3 to drag/drop assets*/
 
         jp.add(jp2, BorderLayout.NORTH);
