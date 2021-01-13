@@ -14,6 +14,7 @@ public class DnDImEx extends TransferHandler {//implements Transferable {
     public File file;
     public FileInputStream fis;
     public ArrayList<String> imgByteStringArrayList;
+    public ArrayList<byte[]> imgByteArrayList;
     // byte[] imgByteArray;
     public ImageIcon ii;
     public ArrayList<String> AssetsList = EditorMain.AssetsList;
@@ -34,8 +35,10 @@ public class DnDImEx extends TransferHandler {//implements Transferable {
                 imgByteArray = Base64.getEncoder().encode(file.toString().getBytes());
                 fis.read(imgByteArray);
                 // imgByteString = Base64.encodeBase64(imgByteArray).toString();
-                imgByteString = imgByteArray.toString();
+                // imgByteString = imgByteArray.toString();
+                imgByteString = new String(imgByteArray, "UTF-8");
                 imgByteStringArrayList.add(i, imgByteString);
+                // imgByteArrayList.add(i, imgByteArray);
             } catch (FileNotFoundException e) { break; }
             catch (IOException e) { break; }
             i++;
@@ -64,20 +67,31 @@ public class DnDImEx extends TransferHandler {//implements Transferable {
         //need try-catch block to call getTransferData
         try {
             Transferable t = tsimpt.getTransferable();
+            /*^We're getting valid drop location here*/
             String tempstr = (String)t.getTransferData(DataFlavor.stringFlavor);
-            JComponent jcomp = (JComponent)tsimpt.getComponent();
-            byte[] imgByteArray2 = Base64.getDecoder().decode(tempstr);
+            // JComponent jcomp = (JComponent)tsimpt.getComponent();
+            JTable jt = (JTable)tsimpt.getComponent();
+            // byte[] imgByteArray2 = Base64.getDecoder().decode(tempstr);
+            /**^IllegalArgumentException
+             * Illegal base64 character 5b (or 3f)
+            */
+            byte[] imgByteArray2 = Base64.getMimeDecoder().decode(tempstr);
+            /**^IllegalArgumentException 
+             * Last unit does not have enough valid bits
+            */
 
             System.out.println("imgByteString = " + tempstr);
             System.out.println("imgByteArray2 = " + imgByteArray2.toString());
 
             ii = new ImageIcon(imgByteArray2);
-            if(jcomp instanceof JButton) {
-                ((JButton)jcomp).setIcon(ii);
-                result = true;
-            }
+            jt.setValueAt(ii, jt.getDropLocation().getRow(), 
+                jt.getDropLocation().getColumn());
+            // if(jcomp instanceof JButton) {
+            //     ((JButton)jcomp).setIcon(ii);
+            //     result = true;
+            // }
 
-            DropLocation loc = tsimpt.getDropLocation();
+            // DropLocation loc = tsimpt.getDropLocation();
             //insertAt(loc, tempstr);
         }
         catch(Exception e) { return false; }//e.printStackTrace();

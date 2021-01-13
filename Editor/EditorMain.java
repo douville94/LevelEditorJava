@@ -250,36 +250,22 @@ public class EditorMain {
         JPanel jp3 = new JPanel(new GridLayout(0, 1));
         jp3.setBorder(BorderFactory.createLineBorder(Color.RED, 5, true));
         // jp3.add(new JTextArea());//to test D&D from lines 240-243
-
+        int row = 20, col = 10;
         /*Maybe create grid in jp3 to drag/drop assets - use JTable?*/
-        // DefaultTableModel dtm = new CustomTableModel(20, 10);
-        /**From
-         * https://stackoverflow.com/questions/4941372/how-to-insert-image-into-jtable-cell
-         */
-        String[] colNames = {"Uh", "Uh2"};
-        Object[][] data = {
-            {Tree1, "Tree1"},
-            {Tree2, "Tree2"},
-            {RP1, "RP1"},
-            {RP2, "RP2"},
-        };
-        DefaultTableModel dtm = new DefaultTableModel(data, colNames) {
+        DefaultTableModel dtm = new DefaultTableModel(row, col) {
+            @Override
             public Class getColumnClass(int column) {
-                // return getValueAt(0, column).getClass();
                 return ImageIcon.class;
             }
         };
-        JTable table = new JTable(dtm);
         // JTable table = new JTable(20, 10);
+        JTable table = new JTable(dtm);
         // JTable table = new PaintJTableCell(20, 10);
         table.setRowHeight(50);
         table.setShowGrid(true);
         // table.getColumn(0).setCellRenderer(table.getDefaultRenderer(ImageIcon.class));
         /**^java.lang.IllegalArgumentException: identifier not found*/
         table.getColumnClass(0);
-        // JLabel jl = new JLabel();
-        // jl.setIcon(Tree1);
-        // table.setValueAt(jl, 0, 0);
         
         jp3.add(table);
 
@@ -295,7 +281,7 @@ public class EditorMain {
         table.setTransferHandler(dndimex);
 
         // dndimex.setDragEnabled(true);
-        JButton[] btnArray = {btn1, btn2, btn3, btn4};
+        JButton[] btnArray = { btn1, btn2, btn3, btn4 };
         /*Create listener for drag & drop on buttons*/
         for(JButton jb : btnArray) {
             jb.addMouseMotionListener(new MouseAdapter() {
