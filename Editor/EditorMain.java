@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 public class EditorMain {
     //private vars
@@ -243,47 +244,73 @@ public class EditorMain {
         JTextField nyarf = new JTextField("NYAAAAAAAAAAAARRRRRRF!!!!");
         nyarf.setDragEnabled(true);
         jp2.add(nyarf);
-        //jp3.add(new JTextArea());//add this after instantiating jp3
-
-        //Create new transfer handlers
-        TransferHandler btn1th, btn2th, btn3th, btn4th;
-        // btn1th = btn1.getTransferHandler();
-        // btn1th.getSourceActions(btn1);
-        // btn1.setTransferHandler(btn1th);
-        // btn1th.setDragImage(Tree1.getImage());
+        // jp3.add(new JTextArea());//add this after instantiating jp3
         
         /*Create 3rd JPanel as main editing space*/
         JPanel jp3 = new JPanel(new GridLayout(0, 1));
         jp3.setBorder(BorderFactory.createLineBorder(Color.RED, 5, true));
         // jp3.add(new JTextArea());//to test D&D from lines 240-243
-        // JTable table = new JTable();
-        // JButton jb = new JButton();
+
+        /*Maybe create grid in jp3 to drag/drop assets - use JTable?*/
+        // DefaultTableModel dtm = new CustomTableModel(20, 10);
+        /**From
+         * https://stackoverflow.com/questions/4941372/how-to-insert-image-into-jtable-cell
+         */
+        String[] colNames = {"Uh", "Uh2"};
+        Object[][] data = {
+            {Tree1, "Tree1"},
+            {Tree2, "Tree2"},
+            {RP1, "RP1"},
+            {RP2, "RP2"},
+        };
+        DefaultTableModel dtm = new DefaultTableModel(data, colNames) {
+            public Class getColumnClass(int column) {
+                // return getValueAt(0, column).getClass();
+                return ImageIcon.class;
+            }
+        };
+        JTable table = new JTable(dtm);
+        // JTable table = new JTable(20, 10);
+        // JTable table = new PaintJTableCell(20, 10);
+        table.setRowHeight(50);
+        table.setShowGrid(true);
+        // table.getColumn(0).setCellRenderer(table.getDefaultRenderer(ImageIcon.class));
+        /**^java.lang.IllegalArgumentException: identifier not found*/
+        table.getColumnClass(0);
+        // JLabel jl = new JLabel();
+        // jl.setIcon(Tree1);
+        // table.setValueAt(jl, 0, 0);
+        
+        jp3.add(table);
+
         JPanel jp4 = new JPanel();
         JButton jp3btn = new JButton();
+        /*Initialize the transfer handler*/
         DnDImEx dndimex = new DnDImEx();
-        // Transferable tranfs = dndimex.createTransferable(btn1);
         // jp3.add(jp3btn);
         // jp4.setTransferHandler(dndimex);
         // jp3.add(jp4);
         // jp3btn.setTransferHandler(dndimex);
         // TransferHandler th = dndimex.getTH();
-        jp3.setTransferHandler(dndimex);
+        table.setTransferHandler(dndimex);
 
         // dndimex.setDragEnabled(true);
-        btn1.addMouseMotionListener(new MouseAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                // th.setDropMode(DropMode.INSERT);
-                // jb.setDropMode(DropMode.INSERT);
-                JButton jb = (JButton)e.getSource();
-                jb.setTransferHandler(new DnDImEx());
-                TransferHandler thandl = jb.getTransferHandler();
-                thandl.exportAsDrag(jb, e, TransferHandler.COPY);
-                //^goes to DnDImex.createTransferable()
-            }
-        });
-        
-        /*Maybe create grid in jp3 to drag/drop assets*/
+        JButton[] btnArray = {btn1, btn2, btn3, btn4};
+        /*Create listener for drag & drop on buttons*/
+        for(JButton jb : btnArray) {
+            jb.addMouseMotionListener(new MouseAdapter() {
+                @Override
+                public void mouseDragged(MouseEvent e) {
+                    // th.setDropMode(DropMode.INSERT);
+                    // jb.setDropMode(DropMode.INSERT);
+                    JButton jb = (JButton)e.getSource();
+                    jb.setTransferHandler(new DnDImEx());
+                    TransferHandler thandl = jb.getTransferHandler();
+                    thandl.exportAsDrag(jb, e, TransferHandler.COPY);
+                    //^goes to DnDImex.createTransferable()
+                }
+            });
+        }
 
         jp.add(jp2, BorderLayout.NORTH);
         jp.add(jp3, BorderLayout.CENTER);

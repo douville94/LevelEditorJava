@@ -46,7 +46,9 @@ public class DnDImEx extends TransferHandler {//implements Transferable {
 
     //IMPORT SECTION
     public boolean canImport(TransferHandler.TransferSupport ts) {
-        return true;
+        DropLocation droploc = ts.getDropLocation();
+        if(droploc != null) { return true; }
+        return false;
     }
     /**Import the data*/
     @Override
@@ -59,7 +61,7 @@ public class DnDImEx extends TransferHandler {//implements Transferable {
         // JList.DropLocation dl = (JList.DropLocation)tsimpt.getDropLocation();
         // int index = dl.getIndex();
         // Transferable t = tsimpt.getTransferable();
-        //need exceptions to call getTransferData
+        //need try-catch block to call getTransferData
         try {
             Transferable t = tsimpt.getTransferable();
             String tempstr = (String)t.getTransferData(DataFlavor.stringFlavor);
@@ -74,6 +76,9 @@ public class DnDImEx extends TransferHandler {//implements Transferable {
                 ((JButton)jcomp).setIcon(ii);
                 result = true;
             }
+
+            DropLocation loc = tsimpt.getDropLocation();
+            //insertAt(loc, tempstr);
         }
         catch(Exception e) { return false; }//e.printStackTrace();
 
@@ -103,7 +108,6 @@ public class DnDImEx extends TransferHandler {//implements Transferable {
     /*Package data in JButton into Transferable object */
     @Override
     public Transferable createTransferable(JComponent c) {
-        //when first called, c is null
         JButton btn = (JButton)c;
         //grab image from JButton
         Icon icon = btn.getIcon();
@@ -128,7 +132,7 @@ public class DnDImEx extends TransferHandler {//implements Transferable {
         for(String iter : imgByteStringArrayList) {
             if(iter.equals(ii.toString())) { imgByteString = iter; }
         }
-        this.setDragImage(ii.getImage());
+        setDragImage(ii.getImage());
         // if(ii.toString().equals(imgByteString)) {}
 
         // imgByteString = ii.toString();
@@ -145,25 +149,20 @@ public class DnDImEx extends TransferHandler {//implements Transferable {
     }
 
     @Override
-    public void setDragImage(Image img) {
-        image = img;
-    }
+    public void setDragImage(Image img) { image = img; }
 
     @Override
-    public Image getDragImage() {
-        return image;
-    }
-
+    public Image getDragImage() { return image; }
 
     // @Override
     // public void exportAsDrag(JComponent comp, InputEvent e, int action) {
     //     getSourceActions(comp);
     // }
 
-    @Override
-    protected void exportDone(JComponent c, Transferable t, int action) {
-        // super.exportDone(c, t, action);
-        JButton jbtn = (JButton)c;
-        jbtn.setIcon(ii);
-    }
+    // @Override
+    // protected void exportDone(JComponent c, Transferable t, int action) {
+    //     // super.exportDone(c, t, action);
+    //     JButton jbtn = (JButton)c;
+    //     jbtn.setIcon(ii);
+    // }
 }
